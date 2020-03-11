@@ -125,6 +125,9 @@ public class CoffeeController {
                 .body(coffee);
     }
 
+    /**
+     *Valid -> BindingResult
+     */
     @PostMapping(value = "/save",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
@@ -134,5 +137,17 @@ public class CoffeeController {
             log.warn("BindingResultErrors:{}",bindingResult);
         }
         return coffeeService.saveCoffee(coffeeRequest.getName(),coffeeRequest.getPrice());
+    }
+
+    @GetMapping(value = "/updateCache")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public String updateJedisCache() {
+        try {
+            coffeeService.insertAllIntoJedis();
+        } catch (Exception e) {
+            log.info("updateJedisCache:{}",e);
+        }
+        return "updateCache";
     }
 }

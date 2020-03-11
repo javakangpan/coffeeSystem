@@ -19,6 +19,7 @@ import java.io.Serializable;
 @Table(name = "t_coffee")
 @SuperBuilder/*use the parent property*/
 public class Coffee extends BaseVO implements Serializable {
+    private static final long serialVersionUID = 1881031061136727409L;
     @NotBlank
     private String name;
     @Type(type = "org.jadira.usertype.moneyandcurrency.joda.PersistentMoneyMinorAmount"
