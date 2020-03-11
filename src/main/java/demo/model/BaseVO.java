@@ -1,6 +1,7 @@
 package demo.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,10 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @SuperBuilder
+/*
+hibernate lazy (getOne) proxyObject cannot serializable
+ */
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer"})
 public class BaseVO  implements Serializable {
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull

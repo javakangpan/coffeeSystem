@@ -19,7 +19,7 @@ public class CoffeeService {
     @Autowired
     private CoffeeRepository coffeeRepository;
 
-   public List<Coffee> findCoffeeByNames(List<String> names) {
+    public List<Coffee> findCoffeeByNames(List<String> names) {
        return coffeeRepository.findByNameInOrderById(names);
     }
     public Coffee saveCoffee(String name, Money price) {
@@ -51,6 +51,10 @@ public class CoffeeService {
     @CacheEvict
     public String clearCache() {
         return "clear";
+    }
+
+    public Coffee findById(long id) {
+       return coffeeRepository.getOne(id);
     }
 
 }

@@ -1,6 +1,7 @@
 package demo.controller;
 
 import demo.model.Coffee;
+import demo.model.requestModel.CoffeeRequest;
 import demo.service.CoffeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -9,16 +10,22 @@ import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 @Slf4j
@@ -106,5 +113,26 @@ public class CoffeeController {
     @ResponseBody
     public String clear() {
        return coffeeService.clearCache();
+    }
+
+    @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Coffee> findById(@PathVariable(name = "id") long id) {
+        Coffee coffee = coffeeService.findById(id);
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+                .body(coffee);
+    }
+
+    @PostMapping(value = "/save",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED)
+    public Coffee saveCoffeeWithBindingResult(@Valid CoffeeRequest coffeeRequest,
+                                              BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            log.warn("BindingResultErrors:{}",bindingResult);
+        }
+        return coffeeService.saveCoffee(coffeeRequest.getName(),coffeeRequest.getPrice());
     }
 }
