@@ -1,5 +1,6 @@
 package demo.controller;
 
+import demo.exception.FormValidationException;
 import demo.model.Coffee;
 import demo.model.requestModel.CoffeeRequest;
 import demo.service.CoffeeService;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -70,13 +72,11 @@ public class CoffeeController {
     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public Coffee findByName(@RequestParam(name = "name") String name) {
+    public List<Coffee> findByName(@RequestParam(name = "name") String name) {
         log.info("findByName:{}",name);
         return coffeeService.findCoffeeByName(name);
     }
-    /*
-    path has no name to request
-     */
+
     @GetMapping(value = "/",params = "!name")
     @ResponseBody
     public List<Coffee> findAll() {
@@ -84,35 +84,25 @@ public class CoffeeController {
         return coffeeService.findAll();
     }
 
-    /**
-     * java.lang.NullPointerException: null
-     * FAILED toString()
-     */
     @PostMapping(value = "/update")
+    @ResponseBody
     public void update(@Validated @RequestBody Coffee coffee) {
         log.info("coffee:{}",coffee);
         coffeeService.updateCoffee(coffee);
     }
-/*   if the method is void that has:
-    {
-        "timestamp": "2020-03-10T08:39:32.282+0000",
-            "status": 404,
-            "error": "Not Found",
-            "message": "No message available",
-            "path": "/coffee/espresso/2001/1"
-    }*/
+
     @GetMapping(path = "/{name}/{price}/{id}")
-    public String update(@PathVariable(name="name")@Validated String name,
+    @ResponseBody
+    public void update(@PathVariable(name="name")@Validated String name,
                        @PathVariable(name="price")long price,
                        @PathVariable(name="id")@Validated long id) {
         coffeeService.updateCoffee(name,price,id);
-        return "update";
     }
 
     @RequestMapping(value = "/clear",method = RequestMethod.GET)
     @ResponseBody
-    public String clear() {
-       return coffeeService.clearCache();
+    public void clear() {
+        coffeeService.clearCache();
     }
 
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
@@ -131,23 +121,42 @@ public class CoffeeController {
     @PostMapping(value = "/save",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    public Coffee saveCoffeeWithBindingResult(@Valid CoffeeRequest coffeeRequest,
+    public Coffee saveCoffeeWithBindingResult(@Valid  CoffeeRequest coffeeRequest,
                                               BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             log.warn("BindingResultErrors:{}",bindingResult);
+            throw new FormValidationException(bindingResult);
         }
         return coffeeService.saveCoffee(coffeeRequest.getName(),coffeeRequest.getPrice());
     }
 
+    @PostMapping(value = "/save",consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED)
+    public Coffee saveJsonCoffeeWithBindingResult(@Valid @RequestBody CoffeeRequest coffeeRequest,
+                                              BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            log.warn("BindingResultErrors:{}",bindingResult);
+            throw new ValidationException(bindingResult.toString());
+        }
+        return coffeeService.saveCoffee(coffeeRequest.getName(),coffeeRequest.getPrice());
+    }
+
+
     @GetMapping(value = "/updateCache")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public String updateJedisCache() {
+    public void updateJedisCache() {
         try {
             coffeeService.insertAllIntoJedis();
         } catch (Exception e) {
             log.info("updateJedisCache:{}",e);
         }
-        return "updateCache";
+    }
+
+    @PostMapping(value = "/",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<Coffee> findCoffeesByNames(@RequestBody List<String> names) {
+        return coffeeService.findCoffeeByNames(names);
     }
 }

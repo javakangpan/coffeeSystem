@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface CoffeeRepository extends JpaRepository<Coffee,Long> {
     List<Coffee> findByNameInOrderById(List<String> names);
-    Coffee findByName(String name);
+    List<Coffee> findByName(String name);
     @Query(value = "update t_coffee set name=:name,price=:price where id=:id",nativeQuery = true)
     @Modifying
     @Transactional

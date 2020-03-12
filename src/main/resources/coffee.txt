@@ -1,2 +1,4 @@
 Americano 25.0
 Italian 30.0
+kangpan 15.0
+liting 100.0

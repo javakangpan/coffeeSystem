@@ -3,21 +3,21 @@ package demo.service;
 import com.google.gson.Gson;
 import demo.model.Coffee;
 import demo.repository.CoffeeRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.joda.money.Money;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import java.util.List;
 
 @Service
 @CacheConfig(cacheNames = "Coffee")
+@Transactional
 public class CoffeeService {
     @Autowired
     private CoffeeRepository coffeeRepository;
@@ -31,19 +31,14 @@ public class CoffeeService {
       return coffeeRepository.save(Coffee.builder().name(name).price(price).build());
     }
 
-    /*
-        after clearCache that has cache,why?
-     */
-    @Cacheable
-    public Coffee findCoffeeByName(String name) {
+    public List<Coffee> findCoffeeByName(String name) {
        return coffeeRepository.findByName(name);
     }
-    @CachePut
+
     public void updateCoffee(Coffee coffee) {
        coffeeRepository.updateCoffee(coffee.getName(),coffee.getPrice().getAmountMajorLong(),coffee.getId());
     }
 
-    @CachePut
     public void updateCoffee(String name,long price,long id) {
         coffeeRepository.updateCoffee(name,price,id);
     }
@@ -65,8 +60,7 @@ public class CoffeeService {
     }
 
     @CacheEvict
-    public String clearCache() {
-        return "clear";
+    public void clearCache() {
     }
 
     public Coffee findById(long id) {
