@@ -105,8 +105,9 @@ public class CoffeeController {
         coffeeService.clearCache();
     }
 
-    @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
+    /*@GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)*/
+    @GetMapping(value = "/{id}")
     @ResponseBody
     public ResponseEntity<Coffee> findById(@PathVariable(name = "id") long id) {
         Coffee coffee = coffeeService.findById(id);
