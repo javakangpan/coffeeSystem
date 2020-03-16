@@ -8,6 +8,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+/**
+ * ==>SpringMVC 的拦截器
+ * 核心接口
+ *  HandlerInteceptor
+ *   boolean preHandler()
+ *      return true 继续执行后面的方法
+ *   void postHandler()
+ *   void afterCompletion()
+ */
 @Slf4j
 public class PerformanceInteceptor implements HandlerInterceptor {
     private ThreadLocal<StopWatch> threadLocal = new ThreadLocal<>();

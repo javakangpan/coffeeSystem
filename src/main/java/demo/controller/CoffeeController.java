@@ -20,7 +20,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 import java.io.BufferedReader;
@@ -107,6 +106,11 @@ public class CoffeeController {
 
     /*@GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)*/
+
+    /**
+     * Controller 中手工设置缓存
+     * return ResponseEntity.ok().cacheControl(...).
+     */
     @GetMapping(value = "/{id}")
     @ResponseBody
     public ResponseEntity<Coffee> findById(@PathVariable(name = "id") long id) {

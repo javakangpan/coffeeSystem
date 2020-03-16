@@ -9,7 +9,23 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.validation.ValidationException;
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * ==> SpringMVC中的异常处理机制
+ * SpringMVC异常解析
+ * 核心接口
+ *  HandlerExceptionResolver
+ * 实现类
+ *  SimpleMappingExceptionResolver
+ *  DefaultHandlerExceptionResolver
+ *  ResponseStatusExceptionResolver
+ *  ExceptionHandlerExceptionResolver
+ * ==> 异常处理方法
+ * 处理方法
+ *  @ExceptionHandler
+ * 添加位置
+ * @Controller / @RestController
+ * @ControllerAdvice / @RestControllerAdvice
+ */
 @RestControllerAdvice
 public class GlobalControllerAdvice {
     @ExceptionHandler(ValidationException.class)
