@@ -21,7 +21,7 @@ create table t_order (
 );
 
 create table t_order_coffee (
-    coffee_order_id bigint not null,
+    order_id bigint not null,
     items_id bigint not null
 );
 

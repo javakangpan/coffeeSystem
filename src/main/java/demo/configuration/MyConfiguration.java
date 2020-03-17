@@ -1,6 +1,9 @@
 package demo.configuration;
 
+import demo.endpoint.MyEndpoint;
 import demo.support.PerformanceInteceptor;
+import org.springframework.boot.actuate.autoconfigure.endpoint.condition.ConditionalOnEnabledEndpoint;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +22,7 @@ import java.util.TimeZone;
  *  不能带@EnableWebMvc (彻底控制MVC配置除外)
  */
 @Configuration
-public class PerformanceLogBean implements WebMvcConfigurer {
+public class MyConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new PerformanceInteceptor()).addPathPatterns("/coffee/**").addPathPatterns("/static/**");
@@ -38,5 +41,15 @@ public class PerformanceLogBean implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+    }
+
+    /**
+     * 定义自己的 Endpoint
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnEnabledEndpoint
+    public MyEndpoint myEndPoint() {
+        return MyEndpoint.builder().build();
     }
 }

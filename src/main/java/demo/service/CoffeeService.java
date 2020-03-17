@@ -15,6 +15,11 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import java.util.List;
 
+/**
+ * Spring Boot 缓存抽象
+ * redis 缓存
+ * 序列化 反序列化
+ */
 @Service
 @CacheConfig(cacheNames = "Coffee")
 @Transactional
@@ -67,6 +72,10 @@ public class CoffeeService {
         Coffee coffee = findCoffeeInJedisById(id);
         return coffee == null
                 ? coffeeRepository.getOne(id) : coffee;
+    }
+
+    public long getCoffeeCount() {
+        return coffeeRepository.count();
     }
 
     public void insertAllIntoJedis() {

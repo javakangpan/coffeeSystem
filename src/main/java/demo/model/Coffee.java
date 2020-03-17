@@ -16,7 +16,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Entity
-@Table(name = "t_coffee")
+@Table(name = "T_COFFEE")
 @SuperBuilder/*use the parent property*/
 public class Coffee extends BaseVO implements Serializable {
     private static final long serialVersionUID = 1881031061136727409L;

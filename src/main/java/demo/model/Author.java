@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
+/**
+ * 作者信息
+ */
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
