@@ -4,6 +4,8 @@ import demo.exception.FormValidationException;
 import demo.model.Coffee;
 import demo.model.requestModel.CoffeeRequest;
 import demo.service.CoffeeService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -31,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 @Controller
 @Slf4j
 @RequestMapping("/coffee")
+@Api(tags = "咖啡相关接口")
 public class CoffeeController {
     @Autowired
     private CoffeeService coffeeService;
@@ -41,6 +44,7 @@ public class CoffeeController {
     @ResponseBody
     @PostMapping(path = "/",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation("批量更新咖啡")
     public List<Coffee> batchAddCoffee(@RequestParam("file")MultipartFile file) {
         List<Coffee> coffees = new ArrayList<>();
         if(!file.isEmpty()){
@@ -66,11 +70,13 @@ public class CoffeeController {
     /**
     Accept:application/json;charset=UTF-8
     Content-Type:application/json
+     curl -X GET "http://localhost:8080/coffee/?name=latte" -H "accept: application/json;charset=UTF-8" -H "content-Type:application/json"
      **/
     @GetMapping(value = "/",params = "name" ,consumes = MediaType.APPLICATION_JSON_VALUE,
     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
+    @ApiOperation("根据咖啡名查询咖啡")
     public List<Coffee> findByName(@RequestParam(name = "name") String name) {
         log.info("findByName:{}",name);
         return coffeeService.findCoffeeByName(name);
@@ -78,6 +84,7 @@ public class CoffeeController {
 
     @GetMapping(value = "/",params = "!name")
     @ResponseBody
+    @ApiOperation("查询所有的咖啡")
     public List<Coffee> findAll() {
         log.info("findAll");
         return coffeeService.findAll();
@@ -85,6 +92,7 @@ public class CoffeeController {
 
     @PostMapping(value = "/update")
     @ResponseBody
+    @ApiOperation("更新咖啡")
     public void update(@Validated @RequestBody Coffee coffee) {
         log.info("coffee:{}",coffee);
         coffeeService.updateCoffee(coffee);
@@ -92,6 +100,7 @@ public class CoffeeController {
 
     @GetMapping(path = "/{name}/{price}/{id}")
     @ResponseBody
+    @ApiOperation("更新咖啡")
     public void update(@PathVariable(name="name")@Validated String name,
                        @PathVariable(name="price")long price,
                        @PathVariable(name="id")@Validated long id) {
@@ -100,6 +109,7 @@ public class CoffeeController {
 
     @RequestMapping(value = "/clear",method = RequestMethod.GET)
     @ResponseBody
+    @ApiOperation("清除缓存")
     public void clear() {
         coffeeService.clearCache();
     }
@@ -113,6 +123,7 @@ public class CoffeeController {
      */
     @GetMapping(value = "/{id}")
     @ResponseBody
+    @ApiOperation("根据ID查询咖啡")
     public ResponseEntity<Coffee> findById(@PathVariable(name = "id") long id) {
         Coffee coffee = coffeeService.findById(id);
         return ResponseEntity.ok()
@@ -126,6 +137,7 @@ public class CoffeeController {
     @PostMapping(value = "/save",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation("保存咖啡")
     public Coffee saveCoffeeWithBindingResult(@Valid  CoffeeRequest coffeeRequest,
                                               BindingResult bindingResult){
         if(bindingResult.hasErrors()){
@@ -138,6 +150,7 @@ public class CoffeeController {
     @PostMapping(value = "/save",consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation("保存咖啡")
     public Coffee saveJsonCoffeeWithBindingResult(@Valid @RequestBody CoffeeRequest coffeeRequest,
                                               BindingResult bindingResult){
         if(bindingResult.hasErrors()){
@@ -151,6 +164,7 @@ public class CoffeeController {
     @GetMapping(value = "/updateCache")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
+    @ApiOperation("更新咖啡")
     public void updateJedisCache() {
         try {
             coffeeService.insertAllIntoJedis();
@@ -161,6 +175,7 @@ public class CoffeeController {
 
     @PostMapping(value = "/",consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
+    @ApiOperation("根据名称列表查询咖啡")
     public List<Coffee> findCoffeesByNames(@RequestBody List<String> names) {
         return coffeeService.findCoffeeByNames(names);
     }

@@ -1,5 +1,6 @@
 package demo.service;
 
+import demo.exception.NotFoundException;
 import demo.model.Coffee;
 import demo.model.Order;
 import demo.model.OrderState;
@@ -51,5 +52,9 @@ public class OrderService implements MeterBinder {
 
     public List<Order> findAll() {
         return orderRepository.findAll(Sort.by("id"));
+    }
+
+    public Order findById(long id) {
+       return orderRepository.findById(id).orElseThrow(()->new NotFoundException());
     }
 }

@@ -1,7 +1,10 @@
 package demo.controller;
 
 import demo.model.SystemInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,6 +49,8 @@ import javax.servlet.http.HttpSession;
  */
 @RestController
 @EnableRedisHttpSession
+@Api(tags = "系统相关信息")
+@RequestMapping("/SystemInfo")
 public class SystemInfoController {
     @Resource
     private SystemInfo systemInfo;
@@ -53,7 +58,8 @@ public class SystemInfoController {
     /**
      * 编码设置 TODO
      */
-    @RequestMapping("/SystemInfo/{version}")
+    @GetMapping("/{version}")
+    @ApiOperation(value = "查询系统信息")
     public SystemInfo getSystemInfo(HttpSession httpSession,@PathVariable(name = "version") String version) {
         SystemInfo sessionSystemInfo = (SystemInfo) httpSession.getAttribute(version);
         if(sessionSystemInfo == null) {

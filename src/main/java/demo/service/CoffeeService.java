@@ -48,6 +48,9 @@ public class CoffeeService {
         coffeeRepository.updateCoffee(name,price,id);
     }
 
+    /**
+     * @Cacheable(value="", key="", condition="条件满足缓存")
+     */
     @Cacheable
     public List<Coffee> findAll() {
         return coffeeRepository.findAll(Sort.by("id"));
@@ -64,6 +67,10 @@ public class CoffeeService {
         return gson.fromJson(jedis.get(key),Coffee.class);
     }
 
+    /**
+     * beforeInvocation=true 方法执行前清空缓存
+     * allEntries=true 清除缓存所有元素
+     */
     @CacheEvict
     public void clearCache() {
     }
