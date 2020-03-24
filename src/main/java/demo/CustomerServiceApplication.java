@@ -15,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -27,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 @Slf4j
+@Order(2)
 public class CustomerServiceApplication implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {

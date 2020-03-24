@@ -1,5 +1,6 @@
 package demo.controller;
 
+import demo.mapper.CustomerMapper;
 import demo.model.Coffee;
 import demo.model.Order;
 import demo.model.requestModel.OrderRequest;
@@ -24,6 +25,9 @@ public class OrderController {
     @Autowired
     private CoffeeService coffeeService;
 
+    @Autowired
+    private CustomerMapper customerMapper;
+
     @ResponseBody
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
@@ -43,5 +47,13 @@ public class OrderController {
     public List<Order> findAll() {
         return orderService.findAll();
     }
+
+    @GetMapping("/{id}")
+    @ResponseBody
+    @ApiOperation("查询客户名")
+    public String getCustomer(@PathVariable(name = "id") Long id){
+       return customerMapper.findCustomer(id);
+    }
+
 
 }
