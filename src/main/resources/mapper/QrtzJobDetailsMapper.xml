@@ -7,7 +7,7 @@
         SELECT GROUP_CONCAT(JOB_CLASS_NAME,";") FROM QRTZ_JOB_DETAILS;
     </select>
     <select id="mybatiesXMLTest" resultType="string">
-        SELECT GROUP_CONCAT(customer,";") FROM t_order;
+        SELECT GROUP_CONCAT(customer) FROM t_order;
     </select>
 
 </mapper>

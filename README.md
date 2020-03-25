@@ -70,7 +70,9 @@ Actuator
     
 ==>caffeine
     https://github.com/ben-manes/caffeine/blob/master/README.md
-    
+==>Redis
+    String,Hash, List, Set, Sorted Set
+        
 ==>Spring 缓存抽象
 
 ==>定制 Web 容器的运行参数
@@ -97,8 +99,8 @@ Actuator
     主要功能:集中展示应用程序 Actuator 相关的内容,变更通知(集成邮箱报警功能)
 
 ==>MySql
-    主从复制 分库分表 读写分离 分布式事务
-    中间件 MyCat MaxScale(MariaDB https://mariadb.com/)
+    主从复制 分库分表 读写分离 
+    中间件 MyCat MaxScale(MariaDB https://mariadb.com/) seata(分布式事务框架)
 
 ==>待学习
     http://doc.jeecg.com/1273753
@@ -106,7 +108,11 @@ Actuator
     
 ==>网易云https://c.163yun.com/hub#/home
 
-==>Cron表达式
+==>Cron表达式s
+
+==>Quartz
+==>Hutool https://www.hutool.cn/
+    Hutool是一个Java工具包类库，对文件、流、加密解密、转码、正则、线程、XML等JDK方法进行封装，组成各种Util工具类
 
 
       

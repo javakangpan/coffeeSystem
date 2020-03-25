@@ -2,6 +2,7 @@ package demo.model;
 
 
 import lombok.*;
+import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Type;
 import org.joda.money.Money;
@@ -17,6 +18,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @Entity
 @Table(name = "T_COFFEE")
+@Accessors(chain = true)
 @SuperBuilder/*use the parent property*/
 public class Coffee extends BaseVO implements Serializable {
     private static final long serialVersionUID = 1881031061136727409L;
