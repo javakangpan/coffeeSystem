@@ -108,11 +108,19 @@ Actuator
     
 ==>网易云https://c.163yun.com/hub#/home
 
-==>Cron表达式s
+==>Cron表达式
 
 ==>Quartz
+    
 ==>Hutool https://www.hutool.cn/
     Hutool是一个Java工具包类库，对文件、流、加密解密、转码、正则、线程、XML等JDK方法进行封装，组成各种Util工具类
+    
+==>Vue.js https://cn.vuejs.org/v2/guide/
 
+==>Element-UI http://element-cn.eleme.io/#/zh-CN
+
+==>Netty
+
+==>Apollo
 
       

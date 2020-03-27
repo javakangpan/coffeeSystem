@@ -161,6 +161,31 @@
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.2.10</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.btrace</groupId>
+            <artifactId>btrace-agent</artifactId>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/libs/btrace-agent.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.btrace</groupId>
+            <artifactId>btrace-boot</artifactId>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/libs/btrace-boot.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.btrace</groupId>
+            <artifactId>btrace-client</artifactId>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/libs/btrace-client.jar</systemPath>
+        </dependency>
     </dependencies>
 <!--    <dependencyManagement>
         <dependencies>
@@ -189,6 +214,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
             </plugin>
         </plugins>
     </build>
