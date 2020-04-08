@@ -1,17 +1,17 @@
 package demo.test;
 
-import org.openjdk.btrace.core.BTraceUtils;
+/*import org.openjdk.btrace.core.BTraceUtils;
 import org.openjdk.btrace.core.annotations.*;
 import org.openjdk.btrace.core.types.AnyType;
 
 
 import static org.openjdk.btrace.core.BTraceUtils.*;
-import static org.openjdk.btrace.core.BTraceUtils.Sys.Env.printEnv;
+import static org.openjdk.btrace.core.BTraceUtils.Sys.Env.printEnv;*/
 
-@BTrace  // 注明这是一个BTrace脚本
+//@BTrace  // 注明这是一个BTrace脚本
 public class PrintArgSimple {
 
-    static {
+   /* static {
         printVmArguments();
         printProperties();
         printEnv();
@@ -38,5 +38,5 @@ public class PrintArgSimple {
         BTraceUtils.println("className: " + pcn);
         BTraceUtils.println("MethodName: " + pmn);
         BTraceUtils.println("result: " + result);
-    }
+    }*/
 }

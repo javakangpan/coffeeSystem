@@ -3,12 +3,14 @@ package demo.service;
 import com.google.gson.Gson;
 import demo.model.Coffee;
 import demo.repository.CoffeeRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.joda.money.Money;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.Jedis;
@@ -23,11 +25,14 @@ import java.util.List;
 @Service
 @CacheConfig(cacheNames = "Coffee")
 @Transactional
+@Slf4j
 public class CoffeeService {
     @Autowired
     private CoffeeRepository coffeeRepository;
     @Autowired
     private JedisPool jedisPool;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     public List<Coffee> findCoffeeByNames(List<String> names) {
        return coffeeRepository.findByNameInOrderById(names);
@@ -77,6 +82,8 @@ public class CoffeeService {
 
     public Coffee findById(long id) {
         Coffee coffee = findCoffeeInJedisById(id);
+        redisTemplate.opsForValue().set(id,coffee);
+        log.info("coffee:{}",redisTemplate.opsForValue().get(id));
         return coffee == null
                 ? coffeeRepository.getOne(id) : coffee;
     }

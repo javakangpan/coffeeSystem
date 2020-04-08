@@ -25,12 +25,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
-
+/*
 @SpringBootApplication
 @Slf4j
-@Order(2)
-public class CustomerServiceApplication implements ApplicationRunner {
-    @Override
+@Order(2)*/
+public class CustomerServiceApplication /*implements ApplicationRunner*/ {
+/*    @Override
     public void run(ApplicationArguments args) throws Exception {
         log.info("test..");
         URI uri = UriComponentsBuilder
@@ -39,19 +39,19 @@ public class CustomerServiceApplication implements ApplicationRunner {
         ResponseEntity<Coffee> c = restTemplate.getForEntity(uri, Coffee.class);
         log.info("Response Status: {}, Response Headers: {}", c.getStatusCode(), c.getHeaders().toString());
         log.info("Coffee: {}", c.getBody());
-    }
+    }*/
 
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
         new SpringApplicationBuilder()
                 .sources(CustomerServiceApplication.class)
                 .bannerMode(Banner.Mode.OFF)
                 .web(WebApplicationType.NONE)
                 .run(args);
-    }
-    @Autowired
-    private RestTemplate restTemplate;
+    }*/
+/*    @Autowired
+    private RestTemplate restTemplate;*/
 
-    @Bean
+/*    @Bean
     public HttpComponentsClientHttpRequestFactory requestFactory() {
         PoolingHttpClientConnectionManager connectionManager =
                 new PoolingHttpClientConnectionManager(30, TimeUnit.SECONDS);
@@ -69,14 +69,14 @@ public class CustomerServiceApplication implements ApplicationRunner {
                 new HttpComponentsClientHttpRequestFactory(httpClient);
 
         return requestFactory;
-    }
+    }*/
 
-    @Bean
+/*    @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder
                 .setConnectTimeout(Duration.ofMillis(100))
                 .setReadTimeout(Duration.ofMillis(500))
                 .requestFactory(this::requestFactory)
                 .build();
-    }
+    }*/
 }
